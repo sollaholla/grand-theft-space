@@ -53,11 +53,22 @@
   <ItemGroup>
     <Compile Include="CoreGame\Debugging\Logger.cs" />
     <Compile Include="CoreGame\Debugging\LogType.cs" />
+    <Compile Include="CoreGame\Gameplay\EntityTypes\Interfaces\IPropEntity.cs" />
+    <Compile Include="CoreGame\Gameplay\EntityTypes\PlanetEntity.cs" />
+    <Compile Include="CoreGame\Gameplay\EntityTypes\PropEntity.cs" />
+    <Compile Include="CoreGame\Gameplay\Interfaces\ILevelMetadata.cs" />
+    <Compile Include="CoreGame\Gameplay\Interfaces\IRuntimeLevelUtility.cs" />
+    <Compile Include="CoreGame\Gameplay\Interfaces\IUpdatable.cs" />
+    <Compile Include="CoreGame\Gameplay\RuntimeLevel.cs" />
+    <Compile Include="CoreGame\Gameplay\RuntimeLevelUtilities\LevelPropManager.cs" />
+    <Compile Include="CoreGame\Gameplay\RuntimeLevelUtility.cs" />
+    <Compile Include="CoreGame\Gameplay\RuntimeLevelUtilities\LevelGraphicsManager.cs" />
     <Compile Include="CoreGame\Interfaces\IScriptUtility.cs" />
     <Compile Include="CoreGame\NativeMemory\Structures\camBaseCamera.cs" />
     <Compile Include="CoreGame\NativeMemory\Structures\camFrame.cs" />
     <Compile Include="CoreGame\NativeMemory\Structures\camGameplayDirector.cs" />
     <Compile Include="CoreGame\NativeMemory\MemoryAccess.cs" />
+    <Compile Include="CoreGame\ScriptUtilities\LevelManager.cs" />
     <Compile Include="CoreGame\ScriptUtility.cs" />
     <Compile Include="CoreGame\Serialization\Interfaces\ILevelArea.cs" />
     <Compile Include="CoreGame\Serialization\Interfaces\ILevelTime.cs" />

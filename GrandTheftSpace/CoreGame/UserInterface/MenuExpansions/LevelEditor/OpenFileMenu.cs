@@ -45,7 +45,10 @@ namespace GrandTheftSpace.CoreGame.UserInterface.MenuExpansions.LevelEditor
                 return;
             }
 
-            var menuItem = new NativeMenuItemBase(Path.GetFileNameWithoutExtension(fileName), "Select to create level from: " + fileName);
+            var menuItem = new NativeMenuItemBase(Path.GetFileNameWithoutExtension(fileName), "Select to create level from: " + fileName)
+            {
+                Tag = level
+            };
 
             MainMenu.MenuItems.Add(menuItem);
         }

@@ -11,6 +11,7 @@ namespace GrandTheftSpace.CoreGame.Serialization
         public int Minute { get; set; }
         public bool FreezeTime { get; set; }
         public string Weather { get; set; }
+        public string DefaultTimecycleModifier { get; set; }
         public List<TimecycleArea> TimecycleAreas { get; set; }
         public List<LevelTeleport> LevelTeleports { get; set; }
         public List<Teleport> Teleports { get; set; }

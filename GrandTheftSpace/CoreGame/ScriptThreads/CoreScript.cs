@@ -3,6 +3,7 @@ using System.Windows.Forms;
 using GTA;
 using GrandTheftSpace.CoreGame.UserInterface;
 using GrandTheftSpace.CoreGame.Debugging;
+using GrandTheftSpace.CoreGame.ScriptUtilities;
 
 namespace GrandTheftSpace.CoreGame.ScriptThreads
 {
@@ -27,13 +28,20 @@ namespace GrandTheftSpace.CoreGame.ScriptThreads
         /// </summary>
         public MenuManager MenuManager { get; private set; }
 
+        /// <summary>
+        /// Controls menu initialization and updating.
+        /// </summary>
+        public LevelManager LevelManager { get; private set; }
+
         private void Init()
         {
             MenuManager = new MenuManager(this);
             MenuManager.ReadSettings(Settings);
-            InitSettings();
 
-            Logger.Log("Initialized.");
+            LevelManager = new LevelManager(this, MenuManager);
+            LevelManager.ReadSettings(Settings);
+
+            InitSettings();
         }
 
         private void InitSettings()
