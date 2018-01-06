@@ -64,6 +64,7 @@
     <Compile Include="CoreGame\Gameplay\RuntimeLevelUtility.cs" />
     <Compile Include="CoreGame\Gameplay\RuntimeLevelUtilities\LevelGraphicsManager.cs" />
     <Compile Include="CoreGame\Interfaces\IScriptUtility.cs" />
+    <Compile Include="CoreGame\Library\MathUtil.cs" />
     <Compile Include="CoreGame\NativeMemory\Structures\camBaseCamera.cs" />
     <Compile Include="CoreGame\NativeMemory\Structures\camFrame.cs" />
     <Compile Include="CoreGame\NativeMemory\Structures\camGameplayDirector.cs" />
