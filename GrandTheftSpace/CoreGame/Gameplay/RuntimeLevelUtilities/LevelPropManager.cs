@@ -1,4 +1,5 @@
 ﻿using GrandTheftSpace.CoreGame.Gameplay.EntityTypes;
+using GrandTheftSpace.CoreGame.Library;
 using GTA;
 using GTA.Math;
 using System.Collections.Generic;
@@ -15,7 +16,7 @@ namespace GrandTheftSpace.CoreGame.Gameplay.RuntimeLevelUtilities
         /// <summary>
         /// The planets instantiated by this level.
         /// </summary>
-        public List<PlanetEntity> Planets { get; private set; }
+        public List<PlanetEntity> Planets { get; set; }
 
         #region IUpdatable
 
@@ -41,7 +42,9 @@ namespace GrandTheftSpace.CoreGame.Gameplay.RuntimeLevelUtilities
 
         private void UpdateProps()
         {
-            foreach (var planet in Planets)
+            var planetsCopy = Planets.ToArray();
+
+            foreach (var planet in planetsCopy)
             {
                 planet.Update();
             }
@@ -65,9 +68,7 @@ namespace GrandTheftSpace.CoreGame.Gameplay.RuntimeLevelUtilities
             {
                 var modelName = planetMeta.Model;
 
-                var spawnPos = position + planetMeta.Offset;
-
-                var prop = CreateProp(modelName, spawnPos);
+                var prop = GTAUtil.CreateProp(modelName, position);
 
                 if (prop == null)
                 {
@@ -80,20 +81,6 @@ namespace GrandTheftSpace.CoreGame.Gameplay.RuntimeLevelUtilities
 
                 Planets.Add(planetEntity);
             }
-        }
-
-        private Prop CreateProp(string modelName, Vector3 spawnPos)
-        {
-            var model = new Model(modelName);
-
-            if (!model.IsValid)
-            {
-                return null;
-            }
-
-            model.Request(10000);
-
-            return World.CreateProp(modelName, spawnPos, false, false);
         }
 
         private void DeleteProps()

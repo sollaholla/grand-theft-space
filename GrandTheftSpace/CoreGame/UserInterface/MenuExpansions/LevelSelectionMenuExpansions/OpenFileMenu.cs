@@ -5,7 +5,7 @@ using System.IO;
 using GrandTheftSpace.CoreGame.Serialization;
 using GrandTheftSpace.CoreGame.Serialization.Space;
 
-namespace GrandTheftSpace.CoreGame.UserInterface.MenuExpansions.LevelEditor
+namespace GrandTheftSpace.CoreGame.UserInterface.MenuExpansions.LevelSelectionMenuExpansions
 {
     internal class OpenFileMenu : MenuExpander
     {
@@ -44,6 +44,8 @@ namespace GrandTheftSpace.CoreGame.UserInterface.MenuExpansions.LevelEditor
             {
                 return;
             }
+
+            level.FilePath = fileName;
 
             var menuItem = new NativeMenuItemBase(Path.GetFileNameWithoutExtension(fileName), "Select to create level from: " + fileName)
             {

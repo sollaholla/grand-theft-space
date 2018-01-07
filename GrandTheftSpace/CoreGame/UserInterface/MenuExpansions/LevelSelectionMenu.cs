@@ -1,11 +1,11 @@
-﻿using GrandTheftSpace.CoreGame.UserInterface.MenuExpansions.LevelEditor;
+﻿using GrandTheftSpace.CoreGame.UserInterface.MenuExpansions.LevelSelectionMenuExpansions;
 using GTAMenu;
 
 namespace GrandTheftSpace.CoreGame.UserInterface.MenuExpansions
 {
-    internal class LevelEditorMenu : MenuExpander
+    internal class LevelSelectionMenu : MenuExpander
     {
-        public LevelEditorMenu(MenuManager menuManager) : base(menuManager)
+        public LevelSelectionMenu(MenuManager menuManager) : base(menuManager)
         { }
 
         /// <summary>

@@ -28,10 +28,10 @@ namespace GrandTheftSpace.CoreGame.UserInterface
         public NativeMenuManager NativeMenuManager { get; private set; }
 
         /// <summary>
-        /// The level editor menu sub-class.
+        /// The level selection menu sub-class.
         /// </summary>
-        public LevelEditorMenu LevelEditorMenu { get; private set; }
-
+        public LevelSelectionMenu LevelSelectionMenu { get; private set; }
+        
         /// <summary>
         /// The key that opens the main menu.
         /// </summary>
@@ -40,12 +40,12 @@ namespace GrandTheftSpace.CoreGame.UserInterface
         private void Init()
         {
             NativeMenuManager = new NativeMenuManager();
-            MainMenu = new NativeMenu("Grand Theft Space", $"VERSION {CoreScript.VersionNum}", MenuBannerType.GunRunningGunMod);
+            MainMenu = new NativeMenu("Grand Theft Space", $"VERSION {CoreScript.VersionNum}", MenuBannerType.SmuglersHangar);
             MainMenu.Init();
             NativeMenuManager.AddMenu(MainMenu);
 
-            LevelEditorMenu = new LevelEditorMenu(this);
-            LevelEditorMenu.AddToMenu(MainMenu, NativeMenuManager);
+            LevelSelectionMenu = new LevelSelectionMenu(this);
+            LevelSelectionMenu.AddToMenu(MainMenu, NativeMenuManager);
         }
 
         public override void ReadSettings(ScriptSettings scriptSettings)

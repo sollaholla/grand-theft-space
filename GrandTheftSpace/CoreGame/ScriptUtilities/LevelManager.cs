@@ -1,4 +1,5 @@
 ﻿using GrandTheftSpace.CoreGame.Gameplay;
+using GrandTheftSpace.CoreGame.ScriptUtilities.LevelManagerUtilities;
 using GrandTheftSpace.CoreGame.Serialization.Space;
 using GrandTheftSpace.CoreGame.UserInterface;
 using GTA;
@@ -10,7 +11,9 @@ namespace GrandTheftSpace.CoreGame.ScriptUtilities
 {
     internal class LevelManager : ScriptUtility
     {
-        private int screenFadeTime = 1000;
+        private int screenFadeTime = 1000; // The duration of the screen fade between levels.
+        private RuntimeLevel currentLevel; // The current level.
+        private RuntimeLevel initialLevel; // The last level that was loaded.
 
         public LevelManager(Script script, MenuManager menuManager) : base(script)
         {
@@ -18,7 +21,9 @@ namespace GrandTheftSpace.CoreGame.ScriptUtilities
             script.Aborted += OnAborted;
 
             MenuManager = menuManager;
-            MenuManager.LevelEditorMenu.OpenFileMenu.MainMenu.ItemSelected += OnFileSelected;
+            SpaceLevelEditor = new SpaceLevelEditor(menuManager);
+
+            SubscribeToMenuEvents();
         }
 
         /// <summary>
@@ -29,7 +34,29 @@ namespace GrandTheftSpace.CoreGame.ScriptUtilities
         /// <summary>
         /// The current level.
         /// </summary>
-        public RuntimeLevel Level { get; private set; }
+        public RuntimeLevel Level {
+            get {
+                return currentLevel;
+            }
+            set {
+                if (IsLevelLoaded || currentLevel == null)
+                {
+                    if (SpaceLevelEditor.Activate)
+                    {
+                        SpaceLevelEditor.Stop();
+                    }
+
+                    initialLevel = currentLevel;
+                    currentLevel = value;
+                    IsLevelLoaded = false;
+                }
+            }
+        }
+
+        /// <summary>
+        /// The current space level editor.
+        /// </summary>
+        public SpaceLevelEditor SpaceLevelEditor { get; private set; }
 
         /// <summary>
         /// Returns true if the level has loaded.
@@ -38,6 +65,11 @@ namespace GrandTheftSpace.CoreGame.ScriptUtilities
 
         #region Menu Events
 
+        private void SubscribeToMenuEvents()
+        {
+            MenuManager.LevelSelectionMenu.OpenFileMenu.MainMenu.ItemSelected += OnFileSelected;
+        }
+
         private void OnFileSelected(object sender, NativeMenuItemEventArgs e)
         {
             if (e.MenuItem == null)
@@ -45,14 +77,16 @@ namespace GrandTheftSpace.CoreGame.ScriptUtilities
                 return;
             }
 
-            var tag = (SpaceLevel)e.MenuItem.Tag;
+            var levelMetadata = (SpaceLevel)e.MenuItem.Tag;
 
-            if (tag == null)
+            if (levelMetadata == null)
             {
                 return;
             }
 
-            Level = new RuntimeLevel(tag);
+            Level = new RuntimeLevel(levelMetadata);
+
+            SpaceLevelEditor.BeginEdit(Level);
         }
 
         #endregion
@@ -68,6 +102,7 @@ namespace GrandTheftSpace.CoreGame.ScriptUtilities
         private void OnAborted(object sender, EventArgs e)
         {
             ResetScreenFade();
+            StopLevelEditor(true);
             UnloadLevel(true);
 
             // DEBUG
@@ -76,11 +111,16 @@ namespace GrandTheftSpace.CoreGame.ScriptUtilities
 
         #endregion
 
+        #region ScriptUtility
+
         public override void ReadSettings(ScriptSettings scriptSettings)
         {
             screenFadeTime = scriptSettings.GetValue("levels", "screen_fade_time", screenFadeTime);
             scriptSettings.SetValue("levels", "screen_fade_time", screenFadeTime);
+            SpaceLevelEditor.ReadSettings(scriptSettings);
         }
+
+        #endregion
 
         private void BeginLevelLoad()
         {
@@ -90,6 +130,7 @@ namespace GrandTheftSpace.CoreGame.ScriptUtilities
                 {
                     IsLevelLoaded = false;
                 }
+
                 return;
             }
 
@@ -102,15 +143,27 @@ namespace GrandTheftSpace.CoreGame.ScriptUtilities
 
                 if (Game.IsScreenFadedOut)
                 {
+                    // DEBUGGING
+                    Game.Player.Character.Position = Level.LevelMetadata.Position;
+                    Game.Player.Character.FreezePosition = true;
+
+                    if (initialLevel != null)
+                    {
+                        initialLevel.Stop();
+
+                        initialLevel = null;
+                    }
+
                     LoadLevel(Level);
 
                     IsLevelLoaded = true;
 
-                    Game.FadeScreenIn(screenFadeTime);
+                    if (SpaceLevelEditor.Activate)
+                    {
+                        SpaceLevelEditor.Init();
+                    }
 
-                    // DEBUGGING
-                    Game.Player.Character.Position = Level.LevelMetadata.Position;
-                    Game.Player.Character.FreezePosition = true;
+                    Game.FadeScreenIn(screenFadeTime);
                 }
             }
         }
@@ -123,6 +176,8 @@ namespace GrandTheftSpace.CoreGame.ScriptUtilities
             }
 
             Level.Tick();
+
+            UpdateLevelEditor();
         }
 
         private void LoadLevel(RuntimeLevel level)
@@ -157,6 +212,24 @@ namespace GrandTheftSpace.CoreGame.ScriptUtilities
                 {
                     Game.FadeScreenIn(0);
                 }
+            }
+        }
+
+        private void UpdateLevelEditor()
+        {
+            if (SpaceLevelEditor.Activate)
+            {
+                SpaceLevelEditor.Tick();
+            }
+        }
+
+        private void StopLevelEditor(bool aborted)
+        {
+            SpaceLevelEditor.Stop();
+
+            if (aborted)
+            {
+                SpaceLevelEditor.Abort();
             }
         }
     }

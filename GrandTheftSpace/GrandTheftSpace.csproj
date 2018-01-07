@@ -42,6 +42,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -64,12 +65,16 @@
     <Compile Include="CoreGame\Gameplay\RuntimeLevelUtility.cs" />
     <Compile Include="CoreGame\Gameplay\RuntimeLevelUtilities\LevelGraphicsManager.cs" />
     <Compile Include="CoreGame\Interfaces\IScriptUtility.cs" />
+    <Compile Include="CoreGame\Interfaces\ISettingsReader.cs" />
+    <Compile Include="CoreGame\Library\GTAUtil.cs" />
     <Compile Include="CoreGame\Library\MathUtil.cs" />
     <Compile Include="CoreGame\NativeMemory\Structures\camBaseCamera.cs" />
     <Compile Include="CoreGame\NativeMemory\Structures\camFrame.cs" />
     <Compile Include="CoreGame\NativeMemory\Structures\camGameplayDirector.cs" />
     <Compile Include="CoreGame\NativeMemory\MemoryAccess.cs" />
     <Compile Include="CoreGame\ScriptUtilities\LevelManager.cs" />
+    <Compile Include="CoreGame\ScriptUtilities\LevelManagerUtilities\SpaceLevelEditor.cs" />
+    <Compile Include="CoreGame\ScriptUtilities\LevelManagerUtilities\SpaceLevelEditorCameraManager.cs" />
     <Compile Include="CoreGame\ScriptUtility.cs" />
     <Compile Include="CoreGame\Serialization\Interfaces\ILevelArea.cs" />
     <Compile Include="CoreGame\Serialization\Interfaces\ILevelTime.cs" />
@@ -91,8 +96,8 @@
     <Compile Include="CoreGame\ScriptThreads\CoreScript.cs" />
     <Compile Include="CoreGame\Storage\Paths.cs" />
     <Compile Include="CoreGame\UserInterface\Interfaces\IMenuExpander.cs" />
-    <Compile Include="CoreGame\UserInterface\MenuExpansions\LevelEditorMenu.cs" />
-    <Compile Include="CoreGame\UserInterface\MenuExpansions\LevelEditor\OpenFileMenu.cs" />
+    <Compile Include="CoreGame\UserInterface\MenuExpansions\LevelSelectionMenu.cs" />
+    <Compile Include="CoreGame\UserInterface\MenuExpansions\LevelSelectionMenuExpansions\OpenFileMenu.cs" />
     <Compile Include="CoreGame\UserInterface\MenuManager.cs" />
     <Compile Include="CoreGame\UserInterface\MenuExpander.cs" />
     <Compile Include="GlobalSuppressions.cs" />

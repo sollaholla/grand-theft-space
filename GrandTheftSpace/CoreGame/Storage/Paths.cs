@@ -4,5 +4,6 @@
     {
         public const string Root = @"scripts\GrandTheftSpace\";
         public const string Levels = Root + @"\Levels\";
+        public const string Models = Root + @"\Models\";
     }
 }

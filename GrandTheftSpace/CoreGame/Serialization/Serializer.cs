@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 
 namespace GrandTheftSpace.CoreGame.Serialization
 {
-    public static class Serializer
+    internal static class Serializer
     {
         public static T Deserialize<T>(string path) where T : class
         {
@@ -34,6 +34,31 @@ namespace GrandTheftSpace.CoreGame.Serialization
                 }
 
                 return null;
+            }
+        }
+
+        public static void Serialize<T>(T obj, string filePath)
+        {
+            FileStream stream = null;
+
+            try
+            {
+                stream = new FileStream(filePath, FileMode.OpenOrCreate);
+
+                var serializer = new XmlSerializer(typeof(T));
+
+                serializer.Serialize(stream, obj);
+
+                stream.Close();
+            }
+            catch (Exception e)
+            {
+                Logger.Log(e);
+
+                if (stream != null)
+                {
+                    stream.Close();
+                }
             }
         }
     }

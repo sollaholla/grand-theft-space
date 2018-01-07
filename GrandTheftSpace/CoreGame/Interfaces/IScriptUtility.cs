@@ -2,7 +2,7 @@
 
 namespace GrandTheftSpace.CoreGame.Interfaces
 {
-    internal interface IScriptUtility
+    internal interface IScriptUtility : ISettingsReader
     {
         Script Script { get; set; }
     }
